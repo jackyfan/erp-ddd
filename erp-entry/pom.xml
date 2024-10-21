@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>com.jackyfan.ddd.erp</groupId>
-    <artifactId>ddd-entry</artifactId>
+    <artifactId>erp-entry</artifactId>
     <packaging>jar</packaging>
 
     <name>ddd-entry</name>

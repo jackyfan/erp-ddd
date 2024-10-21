@@ -15,7 +15,7 @@
         <module>ddd-core</module>
         <module>erp-training</module>
         <module>erp-demo</module>
-        <module>ddd-entry</module>
+        <module>erp-entry</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
