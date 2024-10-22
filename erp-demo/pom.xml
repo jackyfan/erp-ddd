@@ -10,4 +10,11 @@
     <artifactId>erp-demo</artifactId>
     <name>Archetype - erp-demo</name>
     <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>com.jackyfan.ddd</groupId>
+            <artifactId>ddd-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

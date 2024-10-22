@@ -2,19 +2,26 @@ package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket;
 
 import com.jackyfan.ddd.core.domain.EmployeeId;
 
-public class TicketOwner {
-    private EmployeeId employeeId;
-    private TicketOwnerType ticketOwnerType;
+import java.util.Objects;
 
-    public TicketOwner(EmployeeId employeeId, TicketOwnerType ticketOwnerType) {
+public class TicketOwner {
+    private String employeeId;
+    private TicketOwnerType ownerType;
+
+    public TicketOwner(String employeeId, TicketOwnerType ownerType) {
         this.employeeId = employeeId;
-        this.ticketOwnerType = ticketOwnerType;
+        this.ownerType = ownerType;
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TicketOwner that = (TicketOwner) o;
-        return this.employeeId.equals(that.employeeId)&&this.ticketOwnerType.equals(that.ticketOwnerType);
+        return this.employeeId.equals(that.employeeId)&&this.ownerType.equals(that.ownerType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId, ownerType);
     }
 }

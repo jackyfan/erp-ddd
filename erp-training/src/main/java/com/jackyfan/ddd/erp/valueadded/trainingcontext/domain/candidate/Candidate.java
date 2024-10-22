@@ -1,37 +1,52 @@
 package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.candidate;
 
 import com.jackyfan.ddd.core.domain.EmployeeId;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket.Nominee;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket.TicketOwner;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket.TicketOwnerType;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingId;
+
+import java.util.UUID;
 
 /**
  * 候选人
  */
 public class Candidate {
-    private TicketOwner owner;
-    private EmployeeId employeeId;
-    private String trainingId;
+    private String id;
+    private String employeeId;
     private String name;
     private String email;
-    /**
-     * 候选人ID
-     */
-    private String candidateId;
+    private TrainingId trainingId;
 
-    public Candidate(String candidateId, String name, String email, String trainingId) {
-        this.candidateId = candidateId;
+    public Candidate(String EmployeeId, String name, String email, TrainingId trainingId) {
+        this.id = UUID.randomUUID().toString();
+        this.employeeId = EmployeeId;
         this.name = name;
         this.email = email;
         this.trainingId = trainingId;
-        this.employeeId = EmployeeId.of(candidateId);
-        this.owner = new TicketOwner(employeeId, TicketOwnerType.Nominee);
+    }
+
+    public String employeeId() {
+        return employeeId;
+    }
+
+    public String name() {
+        return this.name;
+    }
+
+    public String email() {
+        return email;
+    }
+
+    public TrainingId trainingId() {
+        return trainingId;
     }
 
     public TicketOwner toOwner() {
-        return owner;
+        return new TicketOwner(employeeId, TicketOwnerType.Nominee);
     }
 
-    public EmployeeId employeeId() {
-        return employeeId;
+    public Nominee toNominee() {
+        return new Nominee(employeeId, name, email);
     }
 }

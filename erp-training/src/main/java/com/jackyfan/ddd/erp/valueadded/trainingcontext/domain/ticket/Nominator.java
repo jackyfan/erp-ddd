@@ -8,31 +8,23 @@ import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingR
  * 提名人
  */
 public class Nominator {
-    private Operator operator;
-    private EmployeeId employeeId;
+    private String employeeId;
     private String name;
-    private String nominatorId;
     private String email;
-    private TrainingRole trainingRole;
+    private TrainingRole role;
 
-    public Nominator(Operator operator, EmployeeId employeeId, String name) {
-        this.operator = operator;
+    public Nominator(String employeeId, String name, String email, TrainingRole role) {
         this.employeeId = employeeId;
         this.name = name;
-    }
-
-    public Nominator(String nominatorId, String name, String email, TrainingRole trainingRole) {
-        this.nominatorId = nominatorId;
-        this.name = name;
         this.email = email;
-        this.trainingRole = trainingRole;
+        this.role = role;
     }
 
     public Operator toOperator() {
-        return this.operator;
+        return Operator.of(employeeId(),name());
     }
 
-    public EmployeeId employeeId() {
+    public String employeeId() {
         return employeeId;
     }
 

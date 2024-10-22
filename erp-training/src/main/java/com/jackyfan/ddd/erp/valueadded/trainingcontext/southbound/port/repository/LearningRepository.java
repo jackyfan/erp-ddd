@@ -2,13 +2,14 @@ package com.jackyfan.ddd.erp.valueadded.trainingcontext.southbound.port.reposito
 
 import com.jackyfan.ddd.core.stereotype.Port;
 import com.jackyfan.ddd.core.stereotype.PortType;
-import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.candidate.Candidate;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.course.CourseId;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
 
 @Mapper
 @Repository
 @Port(PortType.Repository)
-public interface CandidateRepository {
-    int remove(Candidate candidate);
+public interface LearningRepository {
+    boolean exists(String traineeId, CourseId courseId);
 }

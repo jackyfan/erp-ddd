@@ -1,31 +1,38 @@
 package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket;
 
 import com.jackyfan.ddd.core.domain.EmployeeId;
+import com.jackyfan.ddd.core.stereotype.Aggregate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.candidate.Candidate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.exception.TicketException;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.OperationType;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.StateTransit;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.TicketHistory;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingId;
 
 import java.time.LocalDateTime;
 
+@Aggregate
 public class Ticket {
-    private TicketId ticketId;
-    private String trainingId;
+    private TicketId id;
+    private TrainingId trainingId;
     private TicketStatus ticketStatus;
-    /**
-     *被提名者
-     */
-    private EmployeeId nomineeId;
+    private String nomineeId;
+    private String url;
 
-    public Ticket(TicketId ticketId, String trainingId, TicketStatus ticketStatus) {
-        this.ticketId = ticketId;
+
+    public Ticket(TicketId id, TrainingId trainingId) {
+        this(id, trainingId, TicketStatus.Available, null);
+    }
+
+    public Ticket(TicketId id, TrainingId trainingId, TicketStatus ticketStatus) {
+        this(id, trainingId, ticketStatus, null);
+    }
+
+    public Ticket(TicketId id, TrainingId trainingId, TicketStatus ticketStatus, String nomineeId) {
+        this.id = id;
         this.trainingId = trainingId;
         this.ticketStatus = ticketStatus;
-    }
-    public Ticket(TicketId ticketId, String trainingId) {
-        this.ticketId = ticketId;
-        this.trainingId = trainingId;
+        this.nomineeId = nomineeId;
     }
 
     public void nominate(Candidate candidate) {
@@ -35,24 +42,26 @@ public class Ticket {
         this.ticketStatus = TicketStatus.WaitForConfirm;
         this.nomineeId = candidate.employeeId();
     }
+
     public TicketHistory nominate(Candidate candidate, Nominator nominator) {
         validateTicketStatus();
         doNomination(candidate);
         return generateHistory(candidate, nominator);
     }
 
-    private void validateTicketStatus(){
+    private void validateTicketStatus() {
         if (!ticketStatus.isAvailable()) {
             throw new TicketException("ticket is not available, cannot be nominated.");
         }
     }
-    private void doNomination(Candidate candidate){
+
+    private void doNomination(Candidate candidate) {
         this.ticketStatus = TicketStatus.WaitForConfirm;
         this.nomineeId = candidate.employeeId();
     }
 
-    private TicketHistory generateHistory(Candidate candidate, Nominator nominator){
-        return new TicketHistory(ticketId,
+    private TicketHistory generateHistory(Candidate candidate, Nominator nominator) {
+        return new TicketHistory(id,
                 candidate.toOwner(),
                 transitState(),
                 OperationType.Nomination,
@@ -61,19 +70,26 @@ public class Ticket {
     }
 
     private StateTransit transitState() {
-        return new StateTransit(TicketStatus.Available,ticketStatus);
+        return new StateTransit(TicketStatus.Available, ticketStatus);
     }
 
-    public TicketStatus status(){
+    public TicketStatus status() {
         return ticketStatus;
     }
 
-    public EmployeeId nomineeId(){
+    public String nomineeId() {
         return nomineeId;
     }
 
-    public TicketId id(){
-        return this.ticketId;
+    public TicketId id() {
+        return this.id;
+    }
+
+    public String url() {
+        return this.url;
+    }
+    public TrainingId trainingId(){
+        return this.trainingId;
     }
 
 }

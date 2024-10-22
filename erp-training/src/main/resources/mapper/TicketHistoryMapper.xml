@@ -12,32 +12,30 @@
                 <arg column="ownerType" jdbcType="VARCHAR" javaType="TicketOwnerType" />
             </constructor>
         </association>
-        <association property="stateTransit" javaType="StateTransit">
+        <association property="stateTransit"  javaType="StateTransit">
             <constructor>
                 <arg column="fromStatus" jdbcType="VARCHAR" javaType="TicketStatus" />
-                <arg column="toStatus" jdbcType="VARCHAR" javaType="TicketStatus" />
+                <arg column="toStatus"  jdbcType="VARCHAR" javaType="TicketStatus" />
             </constructor>
         </association>
-        <association property="operatedBy" javaType="Operator">
+        <association property="operatedBy"  javaType="Operator">
             <constructor>
                 <arg column="operatorId" jdbcType="VARCHAR" javaType="String" />
                 <arg column="operatorName" jdbcType="VARCHAR" javaType="String" />
             </constructor>
         </association>
     </resultMap>
+
     <select id="latest" parameterType="TicketId" resultMap="ticketHistoryResult">
         select
-        id, ticketId, ownerId, ownerType, fromStatus, toStatus, operationType, operatorId,
-        operatorName, operatedAt
+        id, ticketId, ownerId, ownerType, fromStatus, toStatus, operationType, operatorId, operatorName, operatedAt
         from ticket_history
-        where ticketId = #{ticketId} and operatedAt = (select max(operatedAt) from
-        ticket_history where ticketId = #{ticketId})
+        where ticketId = #{ticketId} and operatedAt = (select max(operatedAt) from ticket_history where ticketId = #{ticketId})
     </select>
 
     <insert id="add" parameterType="TicketHistory">
         insert into ticket_history
-        (id, ticketId, ownerId, ownerType, fromStatus, toStatus, operationType, operatorId,
-        operatorName, operatedAt)
+        (id, ticketId, ownerId, ownerType, fromStatus, toStatus, operationType, operatorId, operatorName, operatedAt)
         values
         (
         #{id},

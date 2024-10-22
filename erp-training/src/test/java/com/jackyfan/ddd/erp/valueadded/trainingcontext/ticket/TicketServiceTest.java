@@ -4,6 +4,7 @@ import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.candidate.Candidat
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.exception.TicketException;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket.*;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.TicketHistory;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingId;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingRole;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.southbound.port.repository.CandidateRepository;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.southbound.port.repository.TicketHistoryRepository;
@@ -23,20 +24,20 @@ public class TicketServiceTest {
         when(mockTickRepo.ticketOf(ticketId, TicketStatus.Available)).thenReturn(Optional.empty());
         TicketService ticketService = new TicketService();
         ticketService.setTicketRepository(mockTickRepo);
-        String trainingId = "111011111111";
+        TrainingId trainingId = TrainingId.from("111011111111");
         Candidate candidate = new Candidate("200901010110", "Tom", "tom@eas.com", trainingId);
         Nominator nominator = new Nominator("200901010007", "admin", "admin@eas.com",
                 TrainingRole.Coordinator);
-        assertThatThrownBy(() -> ticketService.nominate(ticketId, candidate, nominator))
+        assertThatThrownBy(() -> ticketService.nominate(ticketId, nominator, candidate))
                 .isInstanceOf(TicketException.class)
                 .hasMessageContaining(String.format("available ticket by id {%s} is not found", ticketId.id()));
-         verify(mockTickRepo).ticketOf(ticketId, TicketStatus.Available);
+        verify(mockTickRepo).ticketOf(ticketId, TicketStatus.Available);
     }
 
     @Test
     public void should_nominate_candidate_for_specific_ticket() {
         // given
-        String trainingId = "111011111111";
+        TrainingId trainingId = TrainingId.next();
         TicketId ticketId = TicketId.next();
         Ticket ticket = new Ticket(TicketId.next(), trainingId, TicketStatus.Available);
         TicketRepository mockTickRepo = mock(TicketRepository.class);
@@ -50,7 +51,7 @@ public class TicketServiceTest {
         Candidate candidate = new Candidate("200901010110", "Tom", "tom@eas.com", trainingId);
         Nominator nominator = new Nominator("200901010007", "admin", "admin@eas.com", TrainingRole.Coordinator);
         // when
-        ticketService.nominate(ticketId, candidate, nominator);
+        ticketService.nominate(ticketId, nominator, candidate);
         // then
         verify(mockTickRepo).ticketOf(ticketId, TicketStatus.Available);
         verify(mockTickRepo).update(ticket);

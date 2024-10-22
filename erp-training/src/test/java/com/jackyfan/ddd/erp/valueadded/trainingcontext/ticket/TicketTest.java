@@ -8,6 +8,8 @@ import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.Oper
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.Operator;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.StateTransit;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.tickethistory.TicketHistory;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingId;
+import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training.TrainingRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,17 +19,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class TicketTest {
-    private String trainingId;
+    private TrainingId trainingId;
     private Candidate candidate;
     private Nominator nominator;
     private TicketHistory ticketHistory;
 
     @BeforeEach
     public void setUp() {
-        trainingId = "111011111111";
+        trainingId = TrainingId.from("111011111111");
         candidate = new Candidate("200901010110", "Tom", "tom@eas.com", trainingId);
-        Operator operator = new Operator(EmployeeId.of("1111102"), "Andy");
-        nominator = new Nominator(operator, EmployeeId.of("1111102"), "Andy");
+        nominator = new Nominator("1111102", "Andy","andy@qq.com", TrainingRole.Coordinator);
     }
 
     @Test
@@ -60,7 +61,7 @@ public class TicketTest {
                 TicketOwnerType.Nominee));
         assertThat(ticketHistory.stateTransit()).isEqualTo(new StateTransit(TicketStatus.
                 Available, TicketStatus.WaitForConfirm));
-        assertThat(ticketHistory.operatedBy()).isEqualTo(new Operator(nominator.employeeId(),
+        assertThat(ticketHistory.operatedBy()).isEqualTo(Operator.of(nominator.employeeId(),
                 nominator.name()));
         assertThat(ticketHistory.operatedAt()).isEqualToIgnoringSeconds(LocalDateTime.now());
     }
