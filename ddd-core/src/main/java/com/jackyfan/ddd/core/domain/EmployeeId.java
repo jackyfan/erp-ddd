@@ -1,7 +1,5 @@
 package com.jackyfan.ddd.core.domain;
 
-import ch.qos.logback.core.testUtil.RandomUtil;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
@@ -26,10 +24,11 @@ public class EmployeeId implements Identity<String>, Serializable {
         return new EmployeeId(value);
     }
     public static Identity<String> next() {
+        Random random= new Random();
         return new EmployeeId(String.format("%s%s%s",
                 "emp",
                 "2024-10-19",
-                RandomUtil.getPositiveInt()));
+                random.nextLong()));
     }
     @Override
     public boolean equals(Object o) {
