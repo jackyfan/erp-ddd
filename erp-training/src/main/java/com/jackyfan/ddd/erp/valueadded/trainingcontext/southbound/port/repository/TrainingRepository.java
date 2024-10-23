@@ -16,4 +16,5 @@ public interface TrainingRepository {
     Optional<Training> of(TrainingId trainingId);
     int add(Training training);
     int remove(Training training);
+    boolean exists(TrainingId trainingId);
 }

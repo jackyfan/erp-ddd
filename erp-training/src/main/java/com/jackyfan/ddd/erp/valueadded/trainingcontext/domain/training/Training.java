@@ -4,6 +4,7 @@ import com.jackyfan.ddd.core.stereotype.Aggregate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.course.CourseId;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Aggregate
@@ -11,16 +12,16 @@ public class Training {
     private TrainingId id;
     private String title;
     private String description;
-    private LocalDateTime beginTime;
-    private LocalDateTime endTime;
+    private Date beginTime;
+    private Date endTime;
     private String place;
     private CourseId courseId;
 
-    public Training(String title, String description, LocalDateTime beginTime, LocalDateTime endTime, String place, CourseId courseId) {
+    public Training(String title, String description, Date beginTime, Date endTime, String place, CourseId courseId) {
         this(TrainingId.from(UUID.randomUUID().toString()), title, description, beginTime, endTime, place, courseId);
     }
 
-    public Training(TrainingId id, String title, String description, LocalDateTime beginTime, LocalDateTime endTime, String place, CourseId courseId) {
+    public Training(TrainingId id, String title, String description, Date beginTime, Date endTime, String place, CourseId courseId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,11 +47,11 @@ public class Training {
         return this.description;
     }
 
-    public LocalDateTime beginTime() {
+    public Date beginTime() {
         return beginTime;
     }
 
-    public LocalDateTime endTime() {
+    public Date endTime() {
         return endTime;
     }
 

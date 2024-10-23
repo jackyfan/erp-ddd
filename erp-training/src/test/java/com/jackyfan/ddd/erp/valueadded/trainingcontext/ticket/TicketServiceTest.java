@@ -21,7 +21,7 @@ public class TicketServiceTest {
     public void should_throw_TicketException_if_available_ticket_not_found() {
         TicketId ticketId = TicketId.next();
         TicketRepository mockTickRepo = mock(TicketRepository.class);
-        when(mockTickRepo.ticketOf(ticketId, TicketStatus.Available)).thenReturn(Optional.empty());
+        when(mockTickRepo.of(ticketId, TicketStatus.Available)).thenReturn(Optional.empty());
         TicketService ticketService = new TicketService();
         ticketService.setTicketRepository(mockTickRepo);
         TrainingId trainingId = TrainingId.from("111011111111");
@@ -31,7 +31,7 @@ public class TicketServiceTest {
         assertThatThrownBy(() -> ticketService.nominate(ticketId, nominator, candidate))
                 .isInstanceOf(TicketException.class)
                 .hasMessageContaining(String.format("available ticket by id {%s} is not found", ticketId.id()));
-        verify(mockTickRepo).ticketOf(ticketId, TicketStatus.Available);
+        verify(mockTickRepo).of(ticketId, TicketStatus.Available);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TicketServiceTest {
         TicketId ticketId = TicketId.next();
         Ticket ticket = new Ticket(TicketId.next(), trainingId, TicketStatus.Available);
         TicketRepository mockTickRepo = mock(TicketRepository.class);
-        when(mockTickRepo.ticketOf(ticketId, TicketStatus.Available)).thenReturn(Optional.of(ticket));
+        when(mockTickRepo.of(ticketId, TicketStatus.Available)).thenReturn(Optional.of(ticket));
         TicketHistoryRepository mockTicketHistoryRepo = mock(TicketHistoryRepository.class);
         CandidateRepository mockCandidateRepo = mock(CandidateRepository.class);
         TicketService ticketService = new TicketService();
@@ -53,7 +53,7 @@ public class TicketServiceTest {
         // when
         ticketService.nominate(ticketId, nominator, candidate);
         // then
-        verify(mockTickRepo).ticketOf(ticketId, TicketStatus.Available);
+        verify(mockTickRepo).of(ticketId, TicketStatus.Available);
         verify(mockTickRepo).update(ticket);
         verify(mockTicketHistoryRepo).add(isA(TicketHistory.class));
         verify(mockCandidateRepo).remove(candidate);

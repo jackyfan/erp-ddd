@@ -32,4 +32,11 @@
     <delete id="remove" parameterType="Training">
         delete from training where id = #{id}
     </delete>
+
+    <select id="exists" resultType="boolean" >
+        select exists(
+        select 1 from training
+        where id = #{arg0}
+        )
+    </select>
 </mapper>

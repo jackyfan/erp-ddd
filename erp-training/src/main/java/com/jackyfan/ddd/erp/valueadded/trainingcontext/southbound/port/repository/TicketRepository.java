@@ -16,5 +16,7 @@ import java.util.Optional;
 @Port(PortType.Repository)
 public interface TicketRepository {
     int update(Ticket ticket);
-    Optional<Ticket> Of(TicketId ticketId, TicketStatus ticketStatus);
+    int add(Ticket ticket);
+    Optional<Ticket> of(TicketId ticketId, TicketStatus ticketStatus);
+
 }
