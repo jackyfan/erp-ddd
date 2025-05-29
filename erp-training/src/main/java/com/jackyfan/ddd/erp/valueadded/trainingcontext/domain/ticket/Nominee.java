@@ -2,6 +2,9 @@ package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket;
 
 import java.util.Objects;
 
+/**
+ * 被提名者
+ */
 public class Nominee {
     private String employeeId;
     private String name;

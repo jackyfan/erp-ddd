@@ -3,7 +3,6 @@ package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.training;
 import com.jackyfan.ddd.core.stereotype.Aggregate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.course.CourseId;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 

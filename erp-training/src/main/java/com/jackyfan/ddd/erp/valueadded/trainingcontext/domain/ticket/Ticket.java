@@ -1,6 +1,5 @@
 package com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.ticket;
 
-import com.jackyfan.ddd.core.domain.EmployeeId;
 import com.jackyfan.ddd.core.stereotype.Aggregate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.candidate.Candidate;
 import com.jackyfan.ddd.erp.valueadded.trainingcontext.domain.exception.TicketException;
@@ -88,7 +87,8 @@ public class Ticket {
     public String url() {
         return this.url;
     }
-    public TrainingId trainingId(){
+
+    public TrainingId trainingId() {
         return this.trainingId;
     }
 
